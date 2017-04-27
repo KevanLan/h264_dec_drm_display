@@ -364,20 +364,20 @@ int display_one_frame(MpiDecCmd *cmd_ctx)
 
 #else
     ret = drmPrimeFDToHandle(cmd_ctx->dev->fd, cmd_ctx->dma_fd, &bo->handle);
-    bo->dev = (cmd_ctx->dev + 15) & (~15);
+    bo->dev = cmd_ctx->dev;
     bo->width = (cmd_ctx->width + 15) & (~15);
-    bo->height = cmd_ctx->height;
+    bo->height = (cmd_ctx->height+ 15) & (~15);
     bo->depth = 16;
     bo->bpp = 32;
     bo->format = DRM_FORMAT_NV12;
     bo->flags = 0;
 
     handles[0] = bo->handle;
-    pitches[0] = cmd_ctx->width;
+    pitches[0] = bo->width;
     offsets[0] = 0;
     handles[1] = bo->handle;
-    pitches[1] = cmd_ctx->width;
-    offsets[1] = cmd_ctx->width * cmd_ctx->height;
+    pitches[1] = bo->width;
+    offsets[1] = bo->width * bo->height;
 
     ret = drmModeAddFB2(bo->dev->fd, bo->width, bo->height,
                         bo->format, handles, pitches, offsets,
@@ -388,7 +388,7 @@ int display_one_frame(MpiDecCmd *cmd_ctx)
     }
 
     ret = drmModeSetPlane(cmd_ctx->dev->fd, cmd_ctx->test_plane->plane->plane_id,
-                          cmd_ctx->test_crtc->crtc->crtc_id, cmd_ctx->test_crtc->scanout->fb_id, 0, 0, 0,
+                          cmd_ctx->test_crtc->crtc->crtc_id, bo->fb_id, 0, 0, 0,
                           cmd_ctx->test_crtc->crtc->mode.hdisplay,
                           cmd_ctx->test_crtc->crtc->mode.vdisplay,
                           0, 0, bo->width << 16, bo->height << 16);
