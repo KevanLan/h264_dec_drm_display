@@ -20,7 +20,7 @@
 struct sp_dev;
 struct sp_crtc;
 
-int initialize_screens(struct sp_dev *dev, uint32_t width, uint32_t height);
+int initialize_screens(struct sp_dev *dev);
 
 
 struct sp_plane* get_sp_plane(struct sp_dev *dev, struct sp_crtc *crtc);

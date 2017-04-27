@@ -107,8 +107,8 @@ static int map_sp_bo(struct sp_bo *bo)
         return ret;
     }
 
-    bo->map_addr = mmap(NULL, bo->size, PROT_READ | PROT_WRITE, MAP_SHARED,
-                        bo->dev->fd, md.offset);
+    bo->map_addr = mmap64(NULL, bo->size, PROT_READ | PROT_WRITE, MAP_SHARED,
+                          bo->dev->fd, md.offset);
     if (bo->map_addr == MAP_FAILED) {
         printf("failed to map bo ret=%d\n", -errno);
         return -errno;

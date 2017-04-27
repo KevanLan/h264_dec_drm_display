@@ -26,7 +26,7 @@
 #include "bo.h"
 #include "dev.h"
 
-int initialize_screens(struct sp_dev *dev, uint32_t width, uint32_t height)
+int initialize_screens(struct sp_dev *dev)
 {
     int ret, i, j;
 
@@ -110,8 +110,8 @@ int initialize_screens(struct sp_dev *dev, uint32_t width, uint32_t height)
         }
 
         /* XXX: Hardcoding the format here... :| */
-        cr->scanout = create_sp_bo(dev, width, height,/*m->hdisplay, m->vdisplay,*/
-                                   16, 32, DRM_FORMAT_NV12, 0);
+        cr->scanout = create_sp_bo(dev, m->hdisplay, m->vdisplay,
+                                   24, 32, DRM_FORMAT_XRGB8888, 0);
         if (!cr->scanout) {
             printf("failed to create new scanout bo\n");
             continue;

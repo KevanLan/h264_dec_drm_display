@@ -96,7 +96,6 @@ struct sp_dev* create_sp_dev(void)
     }
 
     dev->fd = fd;
-    drmSetMaster(fd);
 
 #if 0
     ret = drmSetClientCap(dev->fd, DRM_CLIENT_CAP_ATOMIC, 1);
