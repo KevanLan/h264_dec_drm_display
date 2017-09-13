@@ -347,7 +347,7 @@ int display_one_frame(MpiDecCmd *cmd_ctx)
     int ret;
     struct drm_mode_create_dumb cd;
     struct sp_bo *bo;
-    uint32_t handles[4], pitches[4], offsets[4];
+    uint32_t handles[4] = {0}, pitches[4]= {0}, offsets[4]= {0};
 
     bo = calloc(1, sizeof(*bo));
     if (!bo) {
@@ -391,7 +391,7 @@ int display_one_frame(MpiDecCmd *cmd_ctx)
                           cmd_ctx->test_crtc->crtc->crtc_id, bo->fb_id, 0, 0, 0,
                           cmd_ctx->test_crtc->crtc->mode.hdisplay,
                           cmd_ctx->test_crtc->crtc->mode.vdisplay,
-                          0, 0, bo->width << 16, bo->height << 16);
+                          0, 0, cmd_ctx->width << 16, cmd_ctx->height << 16);
 #endif
 
     if (ret) {

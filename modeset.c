@@ -119,13 +119,13 @@ int initialize_screens(struct sp_dev *dev, uint32_t width, uint32_t height)
 
         fill_bo(cr->scanout, 0xFF, 0x0, 0x0, 0xFF);
 
-        ret = drmModeSetCrtc(dev->fd, cr->crtc->crtc_id,
+        /*ret = drmModeSetCrtc(dev->fd, cr->crtc->crtc_id,
                              cr->scanout->fb_id, 0, 0, &c->connector_id,
                              1, m);
         if (ret) {
             printf("failed to set crtc mode ret=%d\n", ret);
             continue;
-        }
+        }*/
         cr->crtc = drmModeGetCrtc(dev->fd, cr->crtc->crtc_id);
         /*
          * Todo:
