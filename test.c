@@ -87,6 +87,15 @@ int main(int argc, char **argv)
         }
     }
 
+	deinit_drm_context(cmd);
+	if (cmd->in_buf) {
+		free(cmd->in_buf);
+		cmd->in_buf = NULL;
+	}
+	if (cmd->out_buf) {
+		free(cmd->out_buf);
+		cmd->out_buf = NULL;
+	}
     RK_MPI_VDEC_Reset();
     RK_MPI_VDEC_Deinit();
     if (cmd) {

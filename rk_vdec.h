@@ -78,6 +78,7 @@ RK_S32 RK_MPI_VDEC_Reset();
 RK_S32 RK_MPI_VDEC_Deinit();
 RK_S32 RK_MPI_VDEC_Init(RK_U32 width, RK_U32 height, RK_U32 type, void *in_buf, void *out_buf, Notify notify);
 void init_drm_context(MpiDecCmd *cmd_ctx);
+void deinit_drm_context(MpiDecCmd *cmd_ctx);
 int display_one_frame(MpiDecCmd *cmd_ctx);
 
 

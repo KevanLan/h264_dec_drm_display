@@ -341,6 +341,14 @@ void init_drm_context(MpiDecCmd *cmd_ctx)
         exit(-1);
     }
 }
+ void deinit_drm_context(MpiDecCmd *cmd_ctx)
+{
+	destroy_sp_dev(cmd_ctx->dev);
+	if (cmd_ctx->plane) {
+		free(cmd_ctx->plane);
+		cmd_ctx->plane = NULL;
+	}
+}
 
 int display_one_frame(MpiDecCmd *cmd_ctx)
 {
