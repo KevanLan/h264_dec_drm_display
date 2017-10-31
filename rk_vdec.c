@@ -16,6 +16,8 @@
 
 #include "rk_vdec.h"
 
+#define USE_MEMCPY_TEST 0
+
 void dump_mpp_frame_to_buf(MppFrame frame)
 {
     mpp_log("dump_mpp_frame_to_file in\n");
@@ -48,6 +50,7 @@ void dump_mpp_frame_to_buf(MppFrame frame)
     cmd->dma_fd = mpp_buffer_get_fd(buffer);
     switch (fmt) {
     case MPP_FMT_YUV420SP : {
+#if USE_MEMCPY_TEST
         mpp_log("formart is MPP_FMT_YUV420SP record it\n");
         RK_U32 i;
         RK_U8 *base_y = base;
@@ -65,6 +68,9 @@ void dump_mpp_frame_to_buf(MppFrame frame)
         }
 
         cmd->notify();
+#else
+		display_one_frame(cmd);
+#endif
     } break;
     default : {
         mpp_err("not supported format %d\n", fmt);
@@ -362,7 +368,7 @@ int display_one_frame(MpiDecCmd *cmd_ctx)
         printf("calloc sp_bo failed\n");
         exit(-1);
     }
-#if 1
+#if USE_MEMCPY_TEST
     memcpy(cmd_ctx->test_crtc->scanout->map_addr, cmd->out_buf, cmd_ctx->width * cmd_ctx->height * 3 / 2);
     ret = drmModeSetPlane(cmd_ctx->dev->fd, cmd_ctx->test_plane->plane->plane_id,
                           cmd_ctx->test_crtc->crtc->crtc_id, cmd_ctx->test_crtc->scanout->fb_id, 0, 0, 0,
